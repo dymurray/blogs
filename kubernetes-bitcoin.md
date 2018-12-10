@@ -1,18 +1,24 @@
 # Bitcoin and Kubernetes
 
-This blog is the culmination of my efforts to run Bitcoin on Kubernetes. My
-professional work involves using Ansible to deploy applications to Kubernetes,
-and I was interested in using Ansible to deploy a containerized version of
-`bitcoind` on Kubernetes.
+This blog is the culmination of my efforts to run
+[Bitcoin](https://bitcoin.org/en/bitcoin-paper) on
+[Kubernetes](https://kubernetes.io/). My professional work involves using
+[Ansible](https://www.ansible.com/) to deploy applications to Kubernetes, and I
+was interested in using Ansible to deploy a containerized version of `bitcoind`
+on Kubernetes. I have been thinking a lot lately about how the Bitcoin network
+will evolve and change over time, especially as
+[Metanet](http://squiremining.com/category/metanet/) comes to fruition. I
+believe the future of Bitcoin applications will live on Kubernetes.
 
 ## The Bitcoin Network
 
 For awhile now I have been fascinated by the nature of Bitcoin's network.
-Bitcoin forms what is called as a "Small World Network" as miners are heavily
+Bitcoin forms what is called a "Small World Network" as miners are heavily
 invested in maintaining connections to as many miners as possible. The miners
 in the network form a massive "supernode" where a user can realistically assume
-that if their transaction is propagated to a miner that it is part of this
-"supernode" then the transaction will be successful and confirmed.
+that if their transaction is propagated to a miner that is part of this
+"supernode" then the transaction will be successful and confirmed. This is the
+foundation for 0-confirmation security in Bitcoin.
 
 But as Bitcoin grows, not all "nodes" in the network need to be miners. In
 fact, the next layer of nodes are heavily incentivized to form dense
@@ -30,7 +36,7 @@ For enterprise to adopt Bitcoin, we must adapt to the existing DevOps model
 that has enabled enterprise to grow and evolve at the rate that only Open
 Source Software can provide. As the DevOps world moves to container
 orchestration inside of Kubernetes, it is only natural that Metanet evolves
-using the same infrastructure.
+using the same infrastructure. 
 
 ## What is Kubernetes?
 
@@ -43,6 +49,14 @@ Platform-as-a-Service system.
 In even simpler terms for those who only care about Bitcoin, Kubernetes is a
 cloud system that power complex applications.
 
+Look at the Kubernetes [Capital One case study](https://kubernetes.io/case-studies/capital-one/):
+>Capital One has applications that handle millions of transactions a day. Big-data decisioning—for fraud detection, credit approvals and beyond—is core to the business. To support the teams that build applications with those functions for the bank, the cloud team led by Senior Director Software Engineering John Swift embraced Kubernetes for its provisioning platform. "Kubernetes and its entire ecosystem are very strategic for us," says Swift. "We use Kubernetes as a substrate or an operating system, if you will. There’s a degree of affinity in our product development.
+
+Businesses like Capital One can use Bitcoin to reduce operating costs and
+decrease settlement times. The technology is a no-brainer for them to adopt at
+scale and they will expect to be able to innovate on top of their existing
+infrastructure.
+
 ## Metanet powered by Kubernetes
 
 Object management inside of Kubernetes is declarative. This means that the user
@@ -51,12 +65,12 @@ handles the magic behind the scenes to spin up the needed resources to allow
 the user to have a fully functioning Bitcoin node inside of their cluster.
 
 Since interacting with the base layer of the network is cumbersome, I believe
-that Bitcoin development will evolve to a point where projects like [BitDB][]
-provide an abstraction for developers to work in environments/languages they
-are familiar with. Just like how Kubernetes allows a developer who knows
-nothing about database configuration to say "Give me a database instance"
-and they receive an IP+Port that connects to the database, we can provide the
-same level of abstraction for Bitcoin.
+that Bitcoin development will evolve to a point where projects like
+[BitDB](https://bitdb.network/) provide an abstraction for developers to work
+in environments/languages they are familiar with. Just like how Kubernetes
+allows a developer who knows nothing about database configuration to say "Give
+me a database instance" and they receive an IP+Port that connects to the
+database, we can provide the same level of abstraction for Bitcoin.
 
 Currently, BitDB provides a public API interface that will need to run on a
 cloud like Kubernetes in order to scale to meet demand. For cloud-native
@@ -65,10 +79,10 @@ for Bitcoin.
 
 ## Microservice Architecture Needed
 
-There is a project in development called TeraNode which is supposed to reinvent
-the Bitcoin node software into a microservice architecture. This is incredibly
-important moving forward as Metanet will be powered by Bitcoin nodes that are
-*not* "full nodes".
+There is a project in development called [TeraNode](https://terab.lokad.com/)
+which is supposed to reinvent the Bitcoin node software into a microservice
+architecture. This is incredibly important moving forward as Metanet will be
+powered by Bitcoin nodes that are *not* "full nodes".
 
 I have been a constant fighter against the "full node" disinformation that
 exists in Bitcoin. A "full node" in Bitcoin is a miner full-stop. Anyone who is
@@ -91,10 +105,11 @@ software declaratively and their application can just plug and play.
 
 As a developer, I am not interested in validating every block in the network
 everytime I spin up a Bitcoin client... I simply want to be able to query the
-network and expose data to my service. While there are some projects that allow
-a user to do this, a true SPV client doesn't exist and I would prefer to see
-all of this software under a single project source that is tried and tested
-much like the Linux Kernel.
+network and expose data to my service trusting that the network is controlled
+by honest hashrate. While there are some projects that allow a user to do this,
+a true SPV client doesn't exist and I would prefer to see all of this software
+under a single project source that is tried and tested much like the Linux
+Kernel.
 
 We need to follow the Unix philosophy of breaking out the Bitcoin client
 software into components that "do one thing and do it well".
@@ -103,16 +118,30 @@ software into components that "do one thing and do it well".
 **NOTE:** All of the `bitcoind` deployments referenced below refer to the
 Bitcoin SV client.
 
-I have previously written a [blog post][] about creating a Kubernetes Operator
-that deploys a containerized `bitcoind` service. I have a maintained version of
-what I'm calling the Bitcoin Operator [here][]. This operator allows anyone to
-deploy an RPC-enabled `bitcoind` service that exposes some information at the
-Kubernetes resource level so that other applications running on Kubernetes can
-automate infrastructure rollouts depending on the status of the Bitcoin
-Operator.
+[Operators](https://coreos.com/operators/) allow a developer to package,
+deploy, and manage a Kubernetes application.
+
+I have previously written a [blog
+post](https://github.com/dymurray/ao-blogs/blob/master/status-example.md) about
+creating a Kubernetes Operator that deploys a containerized `bitcoind` service.
+I have a maintained version of what I'm calling the Bitcoin Operator
+[here](https://github.com/dymurray/bitcoin-operator).  This operator allows
+anyone to deploy an RPC-enabled `bitcoind` service that exposes some
+information at the Kubernetes resource level so that other applications running
+on Kubernetes can automate infrastructure rollouts depending on the status of
+the Bitcoin Operator.
 
 This attempt was just a proof of concept as I do not believe it is feasible for
 application developers to run a "full node" inside of Kubernetes unless they
 are running a cluster on mining hardware. The deployment also requires a beefy
 cluster that can handle the entire blockchain sync as well as enough CPU cores
 to validate the blocks.
+
+# Conclusion
+
+As more and more businesses choose a hybrid-cloud deployment model for their
+applications, Bitcoin cannot be an exception. For Bitcoin to scale to meet
+enterprise business needs then we must create better software that can be
+consumed for big business use cases. The growth and scaling of Bitcoin must
+force us to meet this problem head-on with solutions such as TeraNode that
+allow big business to plug Bitcoin into their existing infrastructure.
