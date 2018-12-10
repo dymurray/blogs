@@ -6,9 +6,8 @@ This blog is the culmination of my efforts to run
 [Ansible](https://www.ansible.com/) to deploy applications to Kubernetes, and I
 was interested in using Ansible to deploy a containerized version of `bitcoind`
 on Kubernetes. I have been thinking a lot lately about how the Bitcoin network
-will evolve and change over time, especially as
-[Metanet](http://squiremining.com/category/metanet/) comes to fruition. I
-believe the future of Bitcoin applications will live on Kubernetes.
+will evolve and change over time and I believe the future of Bitcoin
+applications will live on Kubernetes.
 
 ## The Bitcoin Network
 
@@ -26,16 +25,17 @@ connections with mining nodes (and maybe even smart contracts) in order to
 maintain zero-confirmation security in the network and providing API interfaces
 for clients/users to interact with the highly-connected first layer.
 
-This has been recently discussed with the release of nChain's Metanet project
-which intends to replace the internet with a value-network that is built
-entirely on the Bitcoin blockchain. The idea is that "Merchant nodes" are nodes
-that expose useful APIs for developers and users that will maintain high
-connectivity (due to economic incentive) to the densely connected miner nodes.
+This has been recently discussed with the release of nChain's
+[Metanet](http://squiremining.com/category/metanet/) project which intends to
+replace the internet with a value-network that is built entirely on the Bitcoin
+blockchain. The idea is that "Merchant nodes" are nodes that expose useful APIs
+for developers and users that will maintain high connectivity (due to economic
+incentive) to the densely connected miner nodes.
 
 For enterprise to adopt Bitcoin, we must adapt to the existing DevOps model
 that has enabled enterprise to grow and evolve at the rate that only Open
 Source Software can provide. As the DevOps world moves to container
-orchestration inside of Kubernetes, it is only natural that Metanet evolves
+orchestration inside of Kubernetes, it is only natural that Bitcoin evolves
 using the same infrastructure. 
 
 ## What is Kubernetes?
@@ -57,7 +57,7 @@ decrease settlement times. The technology is a no-brainer for them to adopt at
 scale and they will expect to be able to innovate on top of their existing
 infrastructure.
 
-## Metanet powered by Kubernetes
+## Bitcoin powered by Kubernetes
 
 Object management inside of Kubernetes is declarative. This means that the user
 can simply say "I want a `bitcoind` service" to Kubernetes, and Kubernetes
