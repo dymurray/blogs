@@ -134,7 +134,7 @@ the Bitcoin Operator.
 ### The Bitcoin Operator
 
 To learn more about running the Bitcoin Operator, see my [Bitcoin Operator
-blog](https://dymurray/ao-blogs/blob/master/bitcoin-operator.md). The Bitcoin
+blog](https://github.com/dymurray/ao-blogs/blob/master/bitcoin-operator.md). The Bitcoin
 Operator allows a developer to easily run Bitcoin inside of Kubernetes.
 
 This attempt was just a proof of concept as I do not believe it is feasible for
