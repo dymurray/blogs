@@ -134,8 +134,22 @@ the Bitcoin Operator.
 ### The Bitcoin Operator
 
 To learn more about running the Bitcoin Operator, see my [Bitcoin Operator
-blog](https://github.com/dymurray/ao-blogs/blob/master/bitcoin-operator.md). The Bitcoin
-Operator allows a developer to easily run Bitcoin inside of Kubernetes.
+blog](https://github.com/dymurray/ao-blogs/blob/master/bitcoin-operator.md).
+The Bitcoin Operator allows a developer to easily run Bitcoin inside of
+Kubernetes.
+
+Since the status of the Bitcoin instance is constantly monitored and updated by
+the operator, this allows for an application developer to automate
+deployments/infrastructure around the state of the Bitcoin network. An example
+of this is monitoring whether or not the node is in sync to determine when a
+chain split has occurred and the application knows it cannot rely purely on SPV
+for stability.
+
+As we move towards a microservice architecture, a lightweight pod that monitors
+the network can spin up resources on demand. A good example of this is when a
+new block is found, it triggers the creation of a new Kubernetes resource that
+automatically spins up both a block validator pod and a new mining pod that
+works off the previous block header.
 
 This attempt was just a proof of concept as I do not believe it is feasible for
 application developers to run a "full node" inside of Kubernetes unless they
